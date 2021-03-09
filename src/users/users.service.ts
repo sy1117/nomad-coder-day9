@@ -33,4 +33,26 @@ export class UsersService {
       };
     }
   }
+
+  async login(id: string, password: string) {
+    try {
+      const user = await this.userRepository.findOneOrFail();
+      if (user.checkPassword(password)) {
+        return {
+          ok: true,
+          user,
+        };
+      } else {
+        return {
+          ok: false,
+          error: 'password incorrect',
+        };
+      }
+    } catch (error) {
+      return {
+        ok: false,
+        error: error.message,
+      };
+    }
+  }
 }
