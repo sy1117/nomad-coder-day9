@@ -11,13 +11,26 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,
-
   ) {}
 
-  create({id, password, role}: CreateAccountInput) {
-    const createdUser = new User();
-    createdUser.id=id;
-    createdUser.password=this.jwtService.sign(user)
-    return;
+  async create({ id, password, role }: CreateAccountInput) {
+    try {
+      if (this.userRepository.findOneOrFail({ id })) {
+        return {
+          ok: false,
+          error: `id:${id} already exists `,
+        };
+      }
+      const createdUser = new User();
+      createdUser.id = id;
+      createdUser.password = password;
+      createdUser.role = role;
+      return await this.userRepository.save(createdUser);
+    } catch (error) {
+      return {
+        ok: false,
+        error: error.message,
+      };
+    }
   }
 }
