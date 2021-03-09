@@ -6,6 +6,8 @@ import { PodcastsModule } from './podcast/podcasts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Podcast } from './podcast/entities/podcast.entity';
 import { Episode } from './podcast/entities/episode.entity';
+import { UsersModule } from './users/users.module';
+import { JwtModule } from './jwt/jwt.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { Episode } from './podcast/entities/episode.entity';
     }),
     GraphQLModule.forRoot({ autoSchemaFile: true }),
     PodcastsModule,
+    UsersModule,
+    JwtModule,
   ],
   controllers: [AppController],
   providers: [AppService],
