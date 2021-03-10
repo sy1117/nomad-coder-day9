@@ -12,6 +12,6 @@ export class CreateAccountInput extends PickType(
 
 @ObjectType('CreateAccountOutput')
 export class CreateAccountOutput extends CoreOutput {
-  @Field(() => User)
+  @Field(() => User, { nullable: true })
   user?: User;
 }
