@@ -22,7 +22,6 @@ export class UsersService {
   async findById(id: string): Promise<SeeProfileOutput> {
     try {
       const user = await this.userRepository.findOne(id);
-      console.log(id, user);
       if (!user) {
         return {
           ok: false,
@@ -57,12 +56,18 @@ export class UsersService {
       createdUser.id = id;
       createdUser.password = password;
       createdUser.role = role;
-      const user = await this.userRepository.save(createdUser);
+      const user = await this.userRepository.save(createdUser).catch(reason => {
+        return {
+          ok: false,
+          error: reason,
+        };
+      });
       return {
         ok: true,
         user,
       };
     } catch (error) {
+      console.log(error);
       return {
         ok: false,
         error: error.message,
