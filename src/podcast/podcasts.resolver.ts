@@ -20,16 +20,19 @@ import {
   CreateEpisodeOutput,
 } from './dtos/create-episode.dto';
 import { UpdateEpisodeInput } from './dtos/update-episode.dto';
+import { Role } from 'src/auth/role.guard';
 
 @Resolver(of => Podcast)
 export class PodcastsResolver {
   constructor(private readonly podcastsService: PodcastsService) {}
 
+  @Role(['ANY'])
   @Query(returns => GetAllPodcastsOutput)
   getAllPodcasts(): Promise<GetAllPodcastsOutput> {
     return this.podcastsService.getAllPodcasts();
   }
 
+  @Role(['HOST'])
   @Mutation(returns => CreatePodcastOutput)
   createPodcast(
     @Args('input') createPodcastInput: CreatePodcastInput,
@@ -37,6 +40,7 @@ export class PodcastsResolver {
     return this.podcastsService.createPodcast(createPodcastInput);
   }
 
+  @Role(['ANY'])
   @Query(returns => PodcastOutput)
   getPodcast(
     @Args('input') podcastSearchInput: PodcastSearchInput,
@@ -44,6 +48,7 @@ export class PodcastsResolver {
     return this.podcastsService.getPodcast(podcastSearchInput.id);
   }
 
+  @Role(['HOST'])
   @Mutation(returns => CoreOutput)
   deletePodcast(
     @Args('input') podcastSearchInput: PodcastSearchInput,
@@ -51,6 +56,7 @@ export class PodcastsResolver {
     return this.podcastsService.deletePodcast(podcastSearchInput.id);
   }
 
+  @Role(['HOST'])
   @Mutation(returns => CoreOutput)
   updatePodcast(
     @Args('input') updatePodcastInput: UpdatePodcastInput,
@@ -63,6 +69,7 @@ export class PodcastsResolver {
 export class EpisodeResolver {
   constructor(private readonly podcastService: PodcastsService) {}
 
+  @Role(['ANY'])
   @Query(returns => EpisodesOutput)
   getEpisodes(
     @Args('input') podcastSearchInput: PodcastSearchInput,
@@ -70,6 +77,7 @@ export class EpisodeResolver {
     return this.podcastService.getEpisodes(podcastSearchInput.id);
   }
 
+  @Role(['HOST'])
   @Mutation(returns => CreateEpisodeOutput)
   createEpisode(
     @Args('input') createEpisodeInput: CreateEpisodeInput,
@@ -77,6 +85,7 @@ export class EpisodeResolver {
     return this.podcastService.createEpisode(createEpisodeInput);
   }
 
+  @Role(['HOST'])
   @Mutation(returns => CoreOutput)
   updateEpisode(
     @Args('input') updateEpisodeInput: UpdateEpisodeInput,
@@ -84,6 +93,7 @@ export class EpisodeResolver {
     return this.podcastService.updateEpisode(updateEpisodeInput);
   }
 
+  @Role(['HOST'])
   @Mutation(returns => CoreOutput)
   deleteEpisode(
     @Args('input') episodesSearchInput: EpisodesSearchInput,

@@ -1,27 +1,45 @@
 import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
-import { Role } from '../enums/role.enum';
-import { Entity, Column, BeforeInsert, BeforeUpdate } from 'typeorm';
+import {
+  Entity,
+  Column,
+  BeforeInsert,
+  BeforeUpdate,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { IsString, IsEnum } from 'class-validator';
 import * as bcrypt from 'bcrypt';
 import { InternalServerErrorException } from '@nestjs/common';
 
+export enum UserRole {
+  HOST = 'HOST',
+  LISTENER = 'LISTENER',
+}
 @ObjectType()
 @Entity()
 export class User {
-  @Column()
+  @PrimaryColumn()
   @Field(() => String)
   @IsString()
   id: string;
 
-  @Column()
+  @Column({ select: false })
   @Field(() => String)
   @IsString()
   password: string;
 
+  // @Column({
+  //   type: 'enum',
+  //   enum: UserRole,
+  // })
+  // @Field(() => UserRole)
+  // @IsEnum(UserRole)
   @Column()
-  @Field(() => Role)
-  @IsEnum(Role)
-  role: Role;
+  @Field(type => String)
+  @IsEnum(UserRole, {
+    message: "role must be 'HOST' or 'LISTENER'",
+  })
+  role: UserRole;
 
   @BeforeInsert()
   @BeforeUpdate()

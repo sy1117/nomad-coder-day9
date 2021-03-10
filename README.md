@@ -11,17 +11,17 @@ Your mission is to make a users module with entities, services and resolvers.
 
 Here are the requirements for the user authentication:
 
-- [ ] Users should be able to login with a password.
-- [ ] There should be only **one** user entity but your entity should support two roles 'Host' and 'Listener'.
-- [ ] Create Guards to protect private resolvers.
-- Use JWT as authentication method.
-- [ ] Create a decorator to get the logged in user.
+- [x] Users should be able to login with a password.
+- [x] There should be only **one** user entity but your entity should support two roles 'Host' and 'Listener'.
+- [x] Create Guards to protect private resolvers.
+  - Use JWT as authentication method.
+- [x] Create a decorator to get the logged in user. => @AuthUser
       Here are the resolvers you need to implement:
 
-- [ ] createAccount
-- [ ] login
-- [ ] editProfile
-- [ ] seeProfile
+- [x] createAccount
+- [x] login
+- [x] editProfile
+- [x] seeProfile
 
 Keep in mind, we must hash the passwords using bcrypt.
 
