@@ -57,10 +57,7 @@ export class UsersService {
       createdUser.password = password;
       createdUser.role = role;
       const user = await this.userRepository.save(createdUser).catch(reason => {
-        return {
-          ok: false,
-          error: reason,
-        };
+        throw Error(reason);
       });
       return {
         ok: true,
